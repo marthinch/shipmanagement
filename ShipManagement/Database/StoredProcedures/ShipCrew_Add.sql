@@ -17,7 +17,7 @@ BEGIN
         INSERT INTO ShipCrews
         (
             ShipId,
-            Crew
+            CrewId
         )
         VALUES
         (

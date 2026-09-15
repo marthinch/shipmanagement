@@ -16,9 +16,22 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<User>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyList<User>>> GetAll(
+        [FromQuery] int pageNumber,
+        [FromQuery] int pageSize,
+        [FromQuery] string sortColumn,
+        [FromQuery] string sortDirection,
+        [FromQuery] string search, 
+        CancellationToken cancellationToken)
     {
-        var result = await _userService.GetAllAsync(cancellationToken);
+        var result = await _userService.GetAllAsync(new Pagination
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            SortColumn = sortColumn,
+            SortDirection = sortDirection,
+            Search = search
+        }, cancellationToken);
         return Ok(result);
     }
 

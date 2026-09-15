@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using ShipManagement.DTOs;
 using System.Data;
 
 namespace ShipManagement.Repositories;
@@ -6,7 +7,7 @@ namespace ShipManagement.Repositories;
 public interface IBaseCRUDRepository
 {
     Task<int> AddAsync<T>(T request, CancellationToken cancellationToken) where T : class;
-    Task<IReadOnlyList<T>> GetAllAsync<T>(CancellationToken cancellationToken) where T : class;
+    Task<IReadOnlyList<T>> GetAllAsync<T>(Pagination pagination, CancellationToken cancellationToken) where T : class;
 }
 
 public class BaseCRUDRepository : BaseRepository, IBaseCRUDRepository
@@ -30,7 +31,7 @@ public class BaseCRUDRepository : BaseRepository, IBaseCRUDRepository
         return await connection.ExecuteScalarAsync<int>(command);
     }
 
-    public async Task<IReadOnlyList<T>> GetAllAsync<T>(CancellationToken cancellationToken) where T : class
+    public async Task<IReadOnlyList<T>> GetAllAsync<T>(Pagination pagination, CancellationToken cancellationToken) where T : class
     {
         using var connection = _connectionFactory.CreateConnection();
 
@@ -38,6 +39,7 @@ public class BaseCRUDRepository : BaseRepository, IBaseCRUDRepository
 
         var command = new CommandDefinition(
             storedProcedure,
+            pagination,
             commandType: CommandType.StoredProcedure,
             cancellationToken: cancellationToken);
 

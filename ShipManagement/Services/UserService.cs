@@ -5,7 +5,7 @@ namespace ShipManagement.Services;
 
 public interface IUserService
 {
-    Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<User>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken);
     Task<int> AddAsync(User user, CancellationToken cancellationToken);
 
     Task<IReadOnlyList<Ship>> GetShipsAsync(int id, CancellationToken cancellationToken);
@@ -20,11 +20,11 @@ public class UserService : BaseService<UserService>, IUserService
         _userRepository = userRepository;
     }
 
-    public Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken)
+    public Task<IReadOnlyList<User>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Get all user");
 
-        return _userRepository.GetAllAsync<User>(cancellationToken);
+        return _userRepository.GetAllAsync<User>(pagination, cancellationToken);
     }
 
     public Task<int> AddAsync(User user, CancellationToken cancellationToken)

@@ -52,11 +52,11 @@ public class ShipServiceTests
         };
 
         _shipRepositoryMock
-            .Setup(x => x.GetAllAsync<Ship>(It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetAllAsync<Ship>(It.IsAny<Pagination>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ships);
 
         // Act
-        var result = await _service.GetAllAsync(CancellationToken.None);
+        var result = await _service.GetAllAsync(It.IsAny<Pagination>(), CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -66,7 +66,7 @@ public class ShipServiceTests
         Assert.Equal("MV Pacific Star", result[0].Name);
 
         _shipRepositoryMock.Verify(
-            x => x.GetAllAsync<Ship>(It.IsAny<CancellationToken>()),
+            x => x.GetAllAsync<Ship>(It.IsAny<Pagination>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 

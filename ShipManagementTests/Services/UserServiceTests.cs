@@ -45,11 +45,11 @@ public class UserServiceTests
         };
 
         _userRepository
-            .Setup(x => x.GetAllAsync<User>(It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetAllAsync<User>(It.IsAny<Pagination>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(users);
 
         // Act
-        var result = await _service.GetAllAsync(CancellationToken.None);
+        var result = await _service.GetAllAsync(It.IsAny<Pagination>(), CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -59,7 +59,7 @@ public class UserServiceTests
         Assert.Equal("Admin", result[0].Role);
 
         _userRepository.Verify(
-            x => x.GetAllAsync<User>(It.IsAny<CancellationToken>()),
+            x => x.GetAllAsync<User>(It.IsAny<Pagination>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 

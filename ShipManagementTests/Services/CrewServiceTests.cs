@@ -48,11 +48,11 @@ public class CrewServiceTests
         };
 
         _crewRepositoryMock
-            .Setup(x => x.GetAllAsync<Crew>(It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetAllAsync<Crew>(It.IsAny<Pagination>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(crews);
 
         // Act
-        var result = await _service.GetAllAsync(CancellationToken.None);
+        var result = await _service.GetAllAsync(It.IsAny<Pagination>(), CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -62,7 +62,7 @@ public class CrewServiceTests
         Assert.Equal("Captain", result[0].Rank);
 
         _crewRepositoryMock.Verify(
-            x => x.GetAllAsync<Crew>(It.IsAny<CancellationToken>()),
+            x => x.GetAllAsync<Crew>(It.IsAny<Pagination>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 

@@ -16,9 +16,22 @@ public class CrewsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Crew>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyList<Crew>>> GetAll(
+        [FromQuery] int pageNumber,
+        [FromQuery] int pageSize,
+        [FromQuery] string sortColumn,
+        [FromQuery] string sortDirection,
+        [FromQuery] string search,
+        CancellationToken cancellationToken)
     {
-        var result = await _crewService.GetAllAsync(cancellationToken);
+        var result = await _crewService.GetAllAsync(new Pagination
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            SortColumn = sortColumn,
+            SortDirection = sortDirection,
+            Search = search
+        }, cancellationToken);
         return Ok(result);
     }
 

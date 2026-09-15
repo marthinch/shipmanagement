@@ -16,9 +16,22 @@ public class ShipsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Ship>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<IReadOnlyList<Ship>>> GetAll(
+        [FromQuery] int pageNumber,
+        [FromQuery] int pageSize,
+        [FromQuery] string sortColumn,
+        [FromQuery] string sortDirection,
+        [FromQuery] string search, 
+        CancellationToken cancellationToken)
     {
-        var result = await _shipService.GetAllAsync(cancellationToken);
+        var result = await _shipService.GetAllAsync(new Pagination
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            SortColumn = sortColumn,
+            SortDirection = sortDirection,
+            Search = search
+        }, cancellationToken);
         return Ok(result);
     }
 

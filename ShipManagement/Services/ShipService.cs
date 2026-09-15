@@ -5,7 +5,7 @@ namespace ShipManagement.Services;
 
 public interface IShipService
 {
-    Task<IReadOnlyList<Ship>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Ship>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken);
     Task<int> AddAsync(Ship ship, CancellationToken cancellationToken);
     Task<int> AssignUserAsync(ShipUser shipUser, CancellationToken cancellationToken);
     Task<IReadOnlyList<Crew>> GetCrewsAsync(int id, CancellationToken cancellationToken);
@@ -29,11 +29,11 @@ public class ShipService : BaseService<ShipService>, IShipService
         _reportRepository = reportRepository;
     }
 
-    public Task<IReadOnlyList<Ship>> GetAllAsync(CancellationToken cancellationToken)
+    public Task<IReadOnlyList<Ship>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Get all ship");
 
-        return _shipRepository.GetAllAsync<Ship>(cancellationToken);
+        return _shipRepository.GetAllAsync<Ship>(pagination, cancellationToken);
     }
 
     public Task<int> AddAsync(Ship ship, CancellationToken cancellationToken)

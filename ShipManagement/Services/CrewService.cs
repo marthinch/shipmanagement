@@ -5,7 +5,7 @@ namespace ShipManagement.Services;
 
 public interface ICrewService
 {
-    Task<IReadOnlyList<Crew>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Crew>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken);
     Task<int> AddAsync(Crew crew, CancellationToken cancellationToken);
 }
 
@@ -18,11 +18,11 @@ public class CrewService : BaseService<CrewService>, ICrewService
         _crewRepository = crewRepository;
     }
 
-    public Task<IReadOnlyList<Crew>> GetAllAsync(CancellationToken cancellationToken)
+    public Task<IReadOnlyList<Crew>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Get all crew");
 
-        return _crewRepository.GetAllAsync<Crew>(cancellationToken);
+        return _crewRepository.GetAllAsync<Crew>(pagination, cancellationToken);
     }
 
     public Task<int> AddAsync(Crew crew, CancellationToken cancellationToken)

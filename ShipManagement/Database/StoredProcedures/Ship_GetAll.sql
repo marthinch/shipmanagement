@@ -2,6 +2,11 @@ USE ShipManagement;
 GO
 
 CREATE OR ALTER PROCEDURE Ship_GetAll
+    @PageNumber INT = 1,
+    @PageSize INT = 20,
+    @SortColumn VARCHAR(20) = 'Name',
+    @SortDirection VARCHAR(4) = 'ASC',
+    @Search VARCHAR(100) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
