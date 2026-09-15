@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ShipManagement/ShipManagement.csproj" />
+  <Project Path="ShipManagementTests/ShipManagementTests.csproj" Id="0f354ada-f8ab-4000-aa59-cfd99eab8c58" />
+</Solution>
